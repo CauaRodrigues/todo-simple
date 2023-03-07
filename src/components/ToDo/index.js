@@ -115,15 +115,16 @@ export default class ToDo extends Component {
 										<input type="checkbox" name={id} id={id} />
 										<label htmlFor={id}>
 											<span>{name}</span>
-
-											<div className="tags">
-												{tags.map((tagName, i) => (
-													<Fragment key={i}>
-														<S.Tag>{tagName}</S.Tag>
-													</Fragment>
-												))}
-											</div>
 										</label>
+									</div>
+
+									<div className="tags">
+										{tags[0] &&
+											tags.map((tagName, i) => (
+												<Fragment key={i}>
+													<S.Tag>{tagName}</S.Tag>
+												</Fragment>
+											))}
 									</div>
 
 									<S.BtnDelete onClick={() => this.removeTask(id)}>

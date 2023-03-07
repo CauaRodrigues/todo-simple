@@ -106,12 +106,12 @@ const Button = styled.button`
 `;
 
 const Task = styled.li`
+	width: 100%;
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	gap: 5rem;
 
 	.form-group__task {
-		width: 90%;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -161,28 +161,26 @@ const Task = styled.li`
 		}
 
 		label {
-			width: 100%;
 			font-size: min(1.1rem, 4vw);
 			font-weight: 500;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-
-			.tags {
-				display: flex;
-				align-items: center;
-				gap: 0.5rem;
-			}
 		}
+	}
+
+	.tags {
+		flex: 1;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
 	}
 `;
 
 const Tag = styled.span`
 	padding: 2px 8px;
-	background-color: red;
+	background-color: #ffd9a6;
 	border-radius: 20px;
 	font-size: min(0.9rem, 6vw);
-	color: #ffff;
+	font-weight: 700;
+	color: #1c1718;
 `;
 
 const BtnDelete = styled(Button)`
