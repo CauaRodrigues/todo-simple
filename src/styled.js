@@ -56,7 +56,12 @@ const Card = styled.section`
 		width: 100%;
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+
+		ul {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
 
 		h2 {
 			align-self: center;
@@ -65,7 +70,7 @@ const Card = styled.section`
 `;
 
 const Field = styled.input`
-	flex-grow: 2;
+	flex-grow: 10;
 	padding: 12px 8px;
 	border-radius: 8px;
 	border: 0.15em solid #6e6e72;
@@ -78,24 +83,8 @@ const Field = styled.input`
 	}
 `;
 
-const OptionsField = styled.select`
+const TagField = styled(Field)`
 	flex-grow: 1;
-	padding: 12px 4px;
-
-	border-radius: 8px;
-	background: #ffffff;
-	border: 0.15em solid #6e6e72;
-
-	cursor: pointer;
-	text-transform: capitalize;
-	color: #47484d;
-	font-size: min(0.9rem, 6vw);
-	font-weight: 600;
-
-	&:focus {
-		outline: none;
-		border-color: #0d6efd;
-	}
 `;
 
 const Button = styled.button`
@@ -109,6 +98,7 @@ const Button = styled.button`
 
 	background: #0d6efd;
 	cursor: pointer;
+	transition: 0.4s linear;
 
 	&:hover {
 		background: #1865b4;
@@ -121,6 +111,7 @@ const Task = styled.li`
 	justify-content: space-between;
 
 	.form-group__task {
+		width: 90%;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
@@ -170,10 +161,28 @@ const Task = styled.li`
 		}
 
 		label {
+			width: 100%;
 			font-size: min(1.1rem, 4vw);
 			font-weight: 500;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.tags {
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+			}
 		}
 	}
+`;
+
+const Tag = styled.span`
+	padding: 2px 8px;
+	background-color: red;
+	border-radius: 20px;
+	font-size: min(0.9rem, 6vw);
+	color: #ffff;
 `;
 
 const BtnDelete = styled(Button)`
@@ -192,9 +201,10 @@ export const Styles = {
 	Container,
 	Card,
 	Field,
-	OptionsField,
+	TagField,
 	Button,
 	Task,
 	Divider,
 	BtnDelete,
+	Tag,
 };

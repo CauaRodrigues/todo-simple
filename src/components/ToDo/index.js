@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Styles as S } from "../../styled";
 import { AiOutlineDelete, AiOutlineSend } from "react-icons/ai";
 import { GenerateId } from "../../utils/GenerateID";
@@ -6,19 +6,44 @@ import { GenerateId } from "../../utils/GenerateID";
 export default class ToDo extends Component {
 	state = {
 		task: "",
-		categoryTask: "",
-		tasksList: [],
-		categoriesList: [
-			{ id: 2, name: "work" },
-			{ id: 1, name: "general" },
-			{ id: 3, name: "study" },
-			{ id: 4, name: "personal" },
+		tags: "",
+		tasksList: [
+			{
+				id: new GenerateId().getID(),
+				name: "Caminhar",
+				complete: false,
+				tags: ["exercicio", "personal", "saúde-mental"],
+			},
+			{
+				id: new GenerateId().getID(),
+				name: "estudar matemática",
+				complete: false,
+				tags: ["matemática", "escola", "estudos"],
+			},
+			{
+				id: new GenerateId().getID(),
+				name: "Desenhar",
+				complete: false,
+				tags: ["pessoal", "arte"],
+			},
+			{
+				id: new GenerateId().getID(),
+				name: "lavar a louça",
+				complete: false,
+				tags: ["pessoal", "limpeza"],
+			},
 		],
 	};
 
 	handlerTask = (e) => {
 		this.setState({
 			task: e.target.value,
+		});
+	};
+
+	handlerTag = (e) => {
+		this.setState({
+			tags: e.target.value,
 		});
 	};
 
@@ -31,9 +56,10 @@ export default class ToDo extends Component {
 						id: new GenerateId().getID(),
 						name: this.state.task,
 						complete: false,
-						category: null,
+						tags: this.state.tags.split(" "),
 					},
 				],
+				tags: "",
 				task: "",
 			});
 		}
@@ -48,14 +74,14 @@ export default class ToDo extends Component {
 	render() {
 		return (
 			<S.Card>
-				<h1>to do</h1>
+				<h1>{"<ToDo />"}</h1>
 
 				<S.Divider />
 
 				<div className="form-control">
 					<S.Field
 						type="text"
-						placeholder="ex: Study"
+						placeholder="Tarefa"
 						name="newTask"
 						id="newTask"
 						value={this.state.task}
@@ -64,15 +90,16 @@ export default class ToDo extends Component {
 						autoComplete="off"
 					/>
 
-					<S.OptionsField id="categories">
-						{this.state.categoriesList[0]
-							? this.state.categoriesList.map(({ id, name }) => (
-									<option key={id} value={name}>
-										{name}
-									</option>
-							  ))
-							: null}
-					</S.OptionsField>
+					<S.TagField
+						type="text"
+						placeholder="Tag"
+						name="newTag"
+						id="newTag"
+						value={this.state.tags}
+						onChange={this.handlerTag}
+						onKeyDown={(e) => (e.code === "Enter" ? this.addTask() : null)}
+						autoComplete="off"
+					/>
 
 					<S.Button type="button" onClick={this.addTask}>
 						<AiOutlineSend size={24} color="#ffffff" />
@@ -80,14 +107,23 @@ export default class ToDo extends Component {
 				</div>
 
 				<div className="container--tasks">
-					{/* details > summary  */}
 					{this.state.tasksList[0] ? (
 						<ul>
-							{this.state.tasksList.map(({ name, id }) => (
+							{this.state.tasksList.map(({ name, id, tags }) => (
 								<S.Task key={id}>
 									<div className="form-group__task">
 										<input type="checkbox" name={id} id={id} />
-										<label htmlFor={id}>{name}</label>
+										<label htmlFor={id}>
+											<span>{name}</span>
+
+											<div className="tags">
+												{tags.map((tagName, i) => (
+													<Fragment key={i}>
+														<S.Tag>{tagName}</S.Tag>
+													</Fragment>
+												))}
+											</div>
+										</label>
 									</div>
 
 									<S.BtnDelete onClick={() => this.removeTask(id)}>
