@@ -55,11 +55,12 @@ export default class ToDo extends Component {
 				<div className="form-control">
 					<S.Field
 						type="text"
-						placeholder="Study"
+						placeholder="ex: Study"
 						name="newTask"
 						id="newTask"
 						value={this.state.task}
 						onChange={this.handlerTask}
+						onKeyDown={(e) => (e.code === "Enter" ? this.addTask() : null)}
 						autoComplete="off"
 					/>
 
