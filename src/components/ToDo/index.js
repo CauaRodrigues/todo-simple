@@ -33,6 +33,7 @@ export default class ToDo extends Component {
 				tags: ["pessoal", "limpeza"],
 			},
 		],
+		inputFocus: false,
 	};
 
 	handlerTask = (e) => {
@@ -86,14 +87,22 @@ export default class ToDo extends Component {
 						id="newTask"
 						value={this.state.task}
 						onChange={this.handlerTask}
-						onKeyDown={(e) => (e.code === "Enter" ? this.addTask() : null)}
+						onKeyDown={(e) =>
+							e.code === "Enter" && !!this.state.task
+								? this.tagInput.focus()
+								: null
+						}
 						autoComplete="off"
 					/>
 
 					<S.TagField
+						ref={(input) => {
+							this.tagInput = input;
+						}}
 						type="text"
 						placeholder="Tag"
 						name="newTag"
+						autoFocus={this.state.inputFocus}
 						id="newTag"
 						value={this.state.tags}
 						onChange={this.handlerTag}
