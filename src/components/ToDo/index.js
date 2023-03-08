@@ -1,39 +1,58 @@
 import React, { Component, Fragment } from "react";
 import { Styles as S } from "../../styled";
 import { AiOutlineDelete, AiOutlineSend } from "react-icons/ai";
+import { IoIosClose } from "react-icons/io";
 import { GenerateId } from "../../utils/GenerateID";
 
 export default class ToDo extends Component {
 	state = {
 		task: "",
-		tags: "",
-		tasksList: [
-			{
-				id: new GenerateId().getID(),
-				name: "Caminhar",
-				complete: false,
-				tags: ["exercicio", "personal", "saúde-mental"],
-			},
-			{
-				id: new GenerateId().getID(),
-				name: "estudar matemática",
-				complete: false,
-				tags: ["matemática", "escola", "estudos"],
-			},
-			{
-				id: new GenerateId().getID(),
-				name: "Desenhar",
-				complete: false,
-				tags: ["pessoal", "arte"],
-			},
-			{
-				id: new GenerateId().getID(),
-				name: "lavar a louça",
-				complete: false,
-				tags: ["pessoal", "limpeza"],
-			},
+		newTag: "",
+		tags: [
+			// { name: "school", id: new GenerateId().getID() },
+			// { name: "job", id: new GenerateId().getID() },
+			// { name: "developer", id: new GenerateId().getID() },
 		],
-		inputFocus: false,
+		tasksList: [
+			// {
+			// 	id: new GenerateId().getID(),
+			// 	name: "Caminhar",
+			// 	complete: false,
+			// 	tags: [
+			// 		{ name: "exercicio", id: new GenerateId().getID() },
+			// 		{ name: "personal", id: new GenerateId().getID() },
+			// 		{ name: "saúde-mental", id: new GenerateId().getID() },
+			// 	],
+			// },
+			// {
+			// 	id: new GenerateId().getID(),
+			// 	name: "estudar matemática",
+			// 	complete: false,
+			// 	tags: [
+			// 		{ name: "matemática", id: new GenerateId().getID() },
+			// 		{ name: "escola", id: new GenerateId().getID() },
+			// 		{ name: "estudos", id: new GenerateId().getID() },
+			// 	],
+			// },
+			// {
+			// 	id: new GenerateId().getID(),
+			// 	name: "Desenhar",
+			// 	complete: false,
+			// 	tags: [
+			// 		{ name: "pessoal", id: new GenerateId().getID() },
+			// 		{ name: "arte", id: new GenerateId().getID() },
+			// 	],
+			// },
+			// {
+			// 	id: new GenerateId().getID(),
+			// 	name: "lavar a louça",
+			// 	complete: false,
+			// 	tags: [
+			// 		{ name: "pessoal", id: new GenerateId().getID() },
+			// 		{ name: "limpeza", id: new GenerateId().getID() },
+			// 	],
+			// },
+		],
 	};
 
 	handlerTask = (e) => {
@@ -44,31 +63,53 @@ export default class ToDo extends Component {
 
 	handlerTag = (e) => {
 		this.setState({
-			tags: e.target.value,
+			newTag: e.target.value,
 		});
 	};
 
 	addTask = () => {
-		if (this.state.task) {
+		if (this.state.task.trim()) {
 			this.setState({
 				tasksList: [
 					...this.state.tasksList,
 					{
 						id: new GenerateId().getID(),
-						name: this.state.task,
+						name: this.state.task.trim(),
 						complete: false,
-						tags: this.state.tags.split(" "),
+						tags: this.state.tags,
 					},
 				],
-				tags: "",
+				tags: [],
 				task: "",
 			});
+		}
+	};
+
+	verifyKeyCode = (event) => {
+		if (event.code === "Enter") {
+			this.addTask();
+		} else if (event.code === "Space" && this.state.newTag.trim()) {
+			this.setState({
+				tags: [
+					...this.state.tags,
+					{ name: this.state.newTag, id: new GenerateId().getID() },
+				],
+				newTag: "",
+			});
+		} else if (event.code === "Escape") {
+			this.tagInput.blur();
 		}
 	};
 
 	removeTask = (idTask) => {
 		this.setState({
 			tasksList: this.state.tasksList.filter((task) => task.id !== idTask),
+		});
+	};
+
+	removeNewTag = (idTag) => {
+		this.setState({
+			tags: this.state.tags.filter((tag) => tag.id !== idTag),
 		});
 	};
 
@@ -88,27 +129,41 @@ export default class ToDo extends Component {
 						value={this.state.task}
 						onChange={this.handlerTask}
 						onKeyDown={(e) =>
-							e.code === "Enter" && !!this.state.task
+							e.code === "Enter" && this.state.task
 								? this.tagInput.focus()
 								: null
 						}
 						autoComplete="off"
 					/>
 
-					<S.TagField
-						ref={(input) => {
-							this.tagInput = input;
-						}}
-						type="text"
-						placeholder="Tag"
-						name="newTag"
-						autoFocus={this.state.inputFocus}
-						id="newTag"
-						value={this.state.tags}
-						onChange={this.handlerTag}
-						onKeyDown={(e) => (e.code === "Enter" ? this.addTask() : null)}
-						autoComplete="off"
-					/>
+					<S.TagField onClick={() => this.tagInput.focus()}>
+						<ul>
+							{this.state.tags[0] &&
+								this.state.tags.map(({ name: tagName, id: tagID }) => (
+									<li key={tagID}>
+										<span>{tagName}</span>
+
+										<button onClick={() => this.removeNewTag(tagID)}>
+											<IoIosClose size={24} />
+										</button>
+									</li>
+								))}
+						</ul>
+
+						<input
+							ref={(input) => {
+								this.tagInput = input;
+							}}
+							type="text"
+							placeholder="Tag"
+							name="newTag"
+							id="newTag"
+							value={this.state.newTag}
+							onChange={this.handlerTag}
+							onKeyDown={this.verifyKeyCode}
+							autoComplete="off"
+						/>
+					</S.TagField>
 
 					<S.Button type="button" onClick={this.addTask}>
 						<AiOutlineSend size={24} color="#ffffff" />
@@ -129,8 +184,8 @@ export default class ToDo extends Component {
 
 									<div className="tags">
 										{tags[0] &&
-											tags.map((tagName, i) => (
-												<Fragment key={i}>
+											tags.map(({ name: tagName, id: tagID }) => (
+												<Fragment key={tagID}>
 													<S.Tag>{tagName}</S.Tag>
 												</Fragment>
 											))}

@@ -70,7 +70,7 @@ const Card = styled.section`
 `;
 
 const Field = styled.input`
-	flex-grow: 10;
+	width: 100%;
 	padding: 12px 8px;
 	border-radius: 8px;
 	border: 0.15em solid #6e6e72;
@@ -83,8 +83,49 @@ const Field = styled.input`
 	}
 `;
 
-const TagField = styled(Field)`
-	flex-grow: 1;
+const TagField = styled.div`
+	width: 100%;
+	padding: 8px 4px;
+	border-radius: 8px;
+	border: 0.15em solid #6e6e72;
+	font-size: min(1rem, 6vw);
+	font-weight: 600;
+
+	input {
+		outline: none;
+		border: 0.15em solid transparent;
+		border-radius: 8px;
+		padding: 5px;
+		margin: 2px;
+
+		&:focus {
+			border-color: #0d6efd;
+		}
+
+		&::placeholder {
+			color: #6e6e72;
+			font-weight: 800;
+		}
+	}
+
+	ul {
+		display: flex;
+		gap: 0.5rem;
+
+		li {
+			padding: 2px 8px;
+			background-color: rgba(31, 111, 235, 0.5);
+			border-radius: 20px;
+			display: flex;
+			align-items: center;
+
+			button {
+				background: transparent;
+				display: flex;
+				cursor: pointer;
+			}
+		}
+	}
 `;
 
 const Button = styled.button`
