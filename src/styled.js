@@ -50,6 +50,17 @@ const Card = styled.section`
 		gap: 1rem;
 		width: 100%;
 		flex-wrap: wrap;
+
+		.field-group {
+			width: 100%;
+
+			label {
+				font-size: min(1.05rem, 8vw);
+				font-weight: 600;
+				margin-bottom: 0.5rem;
+				margin-left: 0.2rem;
+			}
+		}
 	}
 
 	.container--tasks {
@@ -61,6 +72,10 @@ const Card = styled.section`
 			display: flex;
 			flex-direction: column;
 			gap: 0.5rem;
+
+			li {
+				min-width: 100%;
+			}
 		}
 
 		h2 {
@@ -203,13 +218,13 @@ const Task = styled.li`
 		}
 
 		label {
+			width: max-content;
 			font-size: min(1.1rem, 4vw);
 			font-weight: 500;
 		}
 	}
 
 	.tags {
-		width: 100%;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;

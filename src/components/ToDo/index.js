@@ -121,65 +121,73 @@ export default class ToDo extends Component {
 				<S.Divider />
 
 				<div className="form-control">
-					<S.Field
-						type="text"
-						placeholder="Tarefa"
-						name="newTask"
-						id="newTask"
-						value={this.state.task}
-						onChange={this.handlerTask}
-						onKeyDown={(e) =>
-							e.code === "Enter" && this.state.task.trim()
-								? this.tagInput.focus()
-								: null
-						}
-						autoComplete="off"
-					/>
+					<div className="field-group">
+						<label htmlFor="newTask">Tarefa</label>
 
-					<S.TagField
-						onClick={() => {
-							if (
-								navigator.userAgent.match(/Android/i) &&
-								this.state.newTag.trim()
-							) {
-								this.setState({
-									tags: [
-										...this.state.tags,
-										{ name: this.state.newTag, id: new GenerateId().getID() },
-									],
-									newTag: "",
-								});
-							}
-							this.tagInput.focus();
-						}}
-					>
-						<ul>
-							{this.state.tags[0] &&
-								this.state.tags.map(({ name: tagName, id: tagID }) => (
-									<li key={tagID}>
-										<span>{tagName}</span>
-
-										<button onClick={() => this.removeNewTag(tagID)}>
-											<IoIosClose size={24} />
-										</button>
-									</li>
-								))}
-						</ul>
-
-						<input
-							ref={(input) => {
-								this.tagInput = input;
-							}}
+						<S.Field
 							type="text"
-							placeholder="Tag"
-							name="newTag"
-							id="newTag"
-							value={this.state.newTag}
-							onChange={this.handlerTag}
-							onKeyDown={this.verifyKeyCode}
+							placeholder="Tarefa"
+							name="newTask"
+							id="newTask"
+							value={this.state.task}
+							onChange={this.handlerTask}
+							onKeyDown={(e) =>
+								e.code === "Enter" && this.state.task.trim()
+									? this.tagInput.focus()
+									: null
+							}
 							autoComplete="off"
 						/>
-					</S.TagField>
+					</div>
+
+					<div className="field-group">
+						<label htmlFor="newTag">Tags</label>
+
+						<S.TagField
+							onClick={() => {
+								if (
+									navigator.userAgent.match(/Android/i) &&
+									this.state.newTag.trim()
+								) {
+									this.setState({
+										tags: [
+											...this.state.tags,
+											{ name: this.state.newTag, id: new GenerateId().getID() },
+										],
+										newTag: "",
+									});
+								}
+								this.tagInput.focus();
+							}}
+						>
+							<ul>
+								{this.state.tags[0] &&
+									this.state.tags.map(({ name: tagName, id: tagID }) => (
+										<li key={tagID}>
+											<span>{tagName}</span>
+
+											<button onClick={() => this.removeNewTag(tagID)}>
+												<IoIosClose size={24} />
+											</button>
+										</li>
+									))}
+							</ul>
+
+							<input
+								ref={(input) => {
+									this.tagInput = input;
+								}}
+								type="text"
+								placeholder="Tag"
+								name="newTag"
+								id="newTag"
+								value={this.state.newTag}
+								onChange={this.handlerTag}
+								onKeyDown={this.verifyKeyCode}
+								autoComplete="off"
+							/>
+						</S.TagField>
+					</div>
 
 					<S.Button type="button" onClick={this.addTask}>
 						<AiOutlineSend size={24} color="#ffffff" />
