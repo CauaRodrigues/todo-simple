@@ -110,6 +110,7 @@ const TagField = styled.div`
 
 	ul {
 		display: flex;
+		flex-wrap: wrap;
 		gap: 0.5rem;
 
 		li {
@@ -208,10 +209,11 @@ const Task = styled.li`
 	}
 
 	.tags {
-		flex: 1;
+		width: 100%;
 		display: flex;
 		align-items: center;
 		gap: 0.5rem;
+		flex-wrap: wrap;
 	}
 `;
 

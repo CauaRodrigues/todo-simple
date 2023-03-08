@@ -129,14 +129,30 @@ export default class ToDo extends Component {
 						value={this.state.task}
 						onChange={this.handlerTask}
 						onKeyDown={(e) =>
-							e.code === "Enter" && this.state.task
+							e.code === "Enter" && this.state.task.trim()
 								? this.tagInput.focus()
 								: null
 						}
 						autoComplete="off"
 					/>
 
-					<S.TagField onClick={() => this.tagInput.focus()}>
+					<S.TagField
+						onClick={() => {
+							if (
+								navigator.userAgent.match(/Android/i) &&
+								this.state.newTag.trim()
+							) {
+								this.setState({
+									tags: [
+										...this.state.tags,
+										{ name: this.state.newTag, id: new GenerateId().getID() },
+									],
+									newTag: "",
+								});
+							}
+							this.tagInput.focus();
+						}}
+					>
 						<ul>
 							{this.state.tags[0] &&
 								this.state.tags.map(({ name: tagName, id: tagID }) => (
