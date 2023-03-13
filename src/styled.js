@@ -71,10 +71,13 @@ const Card = styled.section`
 		ul {
 			display: flex;
 			flex-direction: column;
+
 			gap: 0.5rem;
 
 			li {
 				min-width: 100%;
+				display: flex;
+				justify-content: space-between;
 			}
 		}
 
@@ -264,3 +267,4 @@ export const Styles = {
 	BtnDelete,
 	Tag,
 };
+
